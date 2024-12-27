@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mi Cuento Interactivo</title>
+  
+  <!-- Cargamos TailwindCSS desde CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Fuente personalizada (ejemplo con 'Amatic SC') -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* Aplicar la fuente personalizada */
+    body {
+      font-family: 'Amatic SC', cursive;
+    }
+
+    /* Contenedor principal del cuento */
+    #bookContainer {
+      margin: 0 auto;
+      max-width: 600px;
+      min-height: 80vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Cada página se muestra en bloque completo */
+    .page {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Ocultar las páginas que no estén activas */
+    .hidden {
+      display: none;
+    }
+
+    /* Contenido de cada página */
+    .page-content {
+      padding: 1.5rem;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .page-text {
+      font-size: 1.5rem;
+      line-height: 1.4;
+    }
+
+    /* Imagen dentro de la página */
+    .page-image {
+      width: 100%;
+      max-width: 100%;
+      display: block;
+      margin: 1rem auto;
+      border-radius: 6px;
+    }
+
+    /* Botones de navegación */
+    #navButtons {
+      margin: 1rem auto;
+      text-align: center;
+    }
+
+    .nav-btn {
+      @apply bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mx-2;
+      transition: background-color 0.3s;
+    }
+
+    .nav-btn:disabled {
+      @apply bg-gray-400 cursor-not-allowed;
+    }
+  </style>
+</head>
+<body class="bg-blue-100 text-gray-800">
+
+  <div class="container mx-auto mt-8 px-4">
+    <h1 class="text-center text-4xl font-bold mb-6">
+      Mi Cuento Interactivo
+    </h1>
+
+    <!-- Contenedor principal del “libro” -->
+    <div id="bookContainer">
+      <!-- Cada página se inyectará vía JavaScript -->
+    </div>
+
+    <!-- Botones de navegación -->
+    <div id="navButtons">
+      <button id="prevBtn" class="nav-btn">Anterior</button>
+      <button id="nextBtn" class="nav-btn">Siguiente</button>
+    </div>
+  </div>
+
+  <script>
+    // Array de páginas con texto e imágenes (rutas reales del repositorio de GitHub)
+    const pages = [
+      {
+        title: "1. Presentación de Alba y Olivia",
+        text: `Alba, con sus 6 años, es una experta patinadora. Le encanta bailar y sueña con tener
+        el “poder del diamante”. Olivia, de 3 años, es muy curiosa y adora a los Pitufos.
+        Las dos hermanas tienen una casa en Navalafuente, juegan juntas y se quieren mucho.`,
+        img: "https://raw.githubusercontent.com/goncoal270984/cuento_alba_oli/main/1.jpg"
+      },
+      {
+        title: "2. Un misterio en el jardín de Navalafuente",
+        text: `Una mañana, mientras jugaban en el jardín, Alba y Olivia encontraron unas pequeñas
+        huellitas azules sobre la hierba. Alba sonrió y decidió seguir el rastro.
+        Las huellas las llevaron hasta un rincón lleno de flores altas que se mecían con el viento.`,
+        img: "https://raw.githubusercontent.com/goncoal270984/cuento_alba_oli/main/2.jpg"
+      },
+      {
+        title: "3. El portal a la Aldea Pitufa",
+        text: `En medio de esas flores, descubrieron un pequeño círculo de luz.
+        Al rozarlo con el “poder del diamante”, el círculo se abrió mostrando un portal brillante.
+        Olivia gritó: “¡Son los Pitufos!”
+        Sin pensárselo dos veces, las hermanas entraron juntas en el portal.`,
+        img: "https://raw.githubusercontent.com/goncoal270984/cuento_alba_oli/main/3.jpg"
+      },
+      {
+        title: "4. El primer desafío: el Bosque Musical",
+        text: `Al otro lado, encontraron un bosque lleno de sonidos mágicos. Los árboles parecían
+        instrumentos que tocaban suaves melodías con la brisa. Varios Pitufos bailaban y daban la
+        bienvenida a Alba y Olivia, invitándolas a unirse a la danza.`,
+        img: "https://raw.githubusercontent.com/goncoal270984/cuento_alba_oli/main/4.jpg"
+      },
+      {
+        title: "5. Los Pitufos quieren ser personas",
+        text: `Tras el baile, los Pitufos confesaron que deseaban ser como ellas: ¡convertirse en personas!
+        Olivia sacó su varita mágica y, con un suave hechizo, los Pitufos se transformaron en pequeñas
+        personitas, del mismo tamaño, pero con aspecto humano.`,
+        img: "https://raw.githubusercontent.com/goncoal270984/cuento_alba_oli/main/5.jpg"
+      },
+      {
+        title: "6. Problema en la Aldea Pitufa",
+        text: `Los ahora “Pitufos-persona” invitaron a Alba y Olivia a recorrer la Aldea.
+        Un viento muy fuerte amenazaba con arrancar los techos de las casas-setas.
+        Olivia animó a los Pitufos a no rendirse, recordándoles que Alba tenía el poder del diamante.`,
+        img: "https://raw.githubusercontent.com/goncoal270984/cuento_alba_oli/main/6.jpg"
+      },
+      {
+        title: "7. El baile del diamante y la solución",
+        text: `Alba se colocó en el centro y empezó a bailar, haciendo brillar chispas de diamante.
+        Poco a poco, el viento se calmó hasta desaparecer. Los “Pitufos-persona” celebraron felices.
+        Agradecidos, le regalaron a Alba un amuleto con forma de diamante y a Olivia un gorro azul.`,
+        img: "https://raw.githubusercontent.com/goncoal270984/cuento_alba_oli/main/7.jpg"
+      },
+      {
+        title: "8. Regreso a Casa y Conclusión",
+        text: `Las hermanas se despidieron y regresaron a casa por el portal.
+        Esa noche, se quedaron dormidas soñando con música, baile y pequeñas huellas azules.
+        Alba susurró: “Guardemos este secreto para volver algún día.”`,
+        img: "https://raw.githubusercontent.com/goncoal270984/cuento_alba_oli/main/8.jpg"
+      }
+    ];
+
+    let currentPageIndex = 0;
+    const bookContainer = document.getElementById("bookContainer");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function initBook() {
+      pages.forEach((page, index) => {
+        // Crear el contenedor de la página
+        const pageDiv = document.createElement("div");
+        pageDiv.classList.add("page");
+        if (index !== 0) {
+          pageDiv.classList.add("hidden");
+        }
+        pageDiv.id = `page-${index}`;
+
+        // Contenido de la página
+        pageDiv.innerHTML = `
+          <div class="page-content">
+            <h2 class="page-title">${page.title}</h2>
+            <img src="${page.img}" alt="Imagen de la página ${index + 1}" class="page-image" />
+            <p class="page-text">${page.text}</p>
+          </div>
+        `;
+
+        bookContainer.appendChild(pageDiv);
+      });
+
+      updateNavButtons();
+    }
+
+    function showPage(index) {
+      // Ocultar la página actual
+      document.getElementById(`page-${currentPageIndex}`).classList.add("hidden");
+      // Mostrar la nueva página
+      document.getElementById(`page-${index}`).classList.remove("hidden");
+
+      // Actualizar índice
+      currentPageIndex = index;
+      updateNavButtons();
+    }
+
+    function updateNavButtons() {
+      prevBtn.disabled = currentPageIndex === 0;
+      nextBtn.disabled = currentPageIndex === pages.length - 1;
+    }
+
+    prevBtn.addEventListener("click", () => {
+      if (currentPageIndex > 0) {
+        showPage(currentPageIndex - 1);
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentPageIndex < pages.length - 1) {
+        showPage(currentPageIndex + 1);
+      }
+    });
+
+    // Inicializamos el libro al cargar la página
+    initBook();
+  </script>
+</body>
+</html>
