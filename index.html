@@ -1,3 +1,6 @@
+¡Claro! Vamos a mejorar tu código para que el cuento sea más interactivo y atractivo para los niños. Aquí tienes una versión mejorada con TailwindCSS, fuentes personalizadas y un efecto de pasar páginas:
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -37,6 +40,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: transform 0.5s ease-in-out;
     }
 
     .hidden {
@@ -48,12 +52,12 @@
     }
 
     .page-title {
-      font-size: 1.8rem;
+      font-size: 2rem;
       margin-bottom: 1rem;
     }
 
     .page-text {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       line-height: 1.5;
       margin-bottom: 1rem;
     }
@@ -83,7 +87,7 @@
     .nav-btn {
       background-color: #3b82f6;
       color: white;
-      font-size: 1rem;
+      font-size: 1.2rem;
       padding: 0.5rem 1rem;
       border: none;
       border-radius: 8px;
@@ -159,6 +163,7 @@
     function showPage(index) {
       document.querySelectorAll(".page").forEach((el, i) => {
         el.classList.toggle("hidden", i !== index);
+        el.style.transform = i === index ? 'rotateY(0)' : 'rotateY(180deg)';
       });
       currentPageIndex = index;
       updateNavButtons();
