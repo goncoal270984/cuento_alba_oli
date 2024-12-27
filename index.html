@@ -19,30 +19,85 @@
       font-family: 'Amatic SC', cursive;
     }
 
-    /* Limitar la altura de las imágenes */
-    .page-image {
-      object-fit: cover;
+    /* Diseño del contenedor del cuento */
+    #bookContainer {
+      margin: 0 auto;
+      max-width: 90%;
+      min-height: 75vh;
+      overflow: hidden;
     }
 
-    /* Botones de navegación fijos */
+    /* Diseño de cada página */
+    .page {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .page-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .page-text {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    /* Imágenes ajustadas */
+    .page-image {
+      max-width: 100%;
+      height: auto;
+      max-height: 60vh;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+
+    /* Botones de navegación */
     #navButtons {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.95);
       display: flex;
       justify-content: space-between;
-      padding: 1rem;
+      padding: 0.8rem 1rem;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     }
 
     .nav-btn {
-      @apply bg-blue-500 text-white font-bold py-2 px-6 rounded hover:bg-blue-600 disabled:bg-gray-400;
+      background-color: #3b82f6;
+      color: white;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
 
-    .hidden {
-      display: none;
+    .nav-btn:hover {
+      background-color: #2563eb;
+    }
+
+    .nav-btn:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
     }
   </style>
 </head>
@@ -53,13 +108,13 @@
       Mi Cuento Interactivo
     </h1>
 
-    <!-- Contenedor principal del “libro” -->
-    <div id="bookContainer" class="mx-auto max-w-[90%] sm:max-w-[600px] min-h-[70vh]">
-      <!-- Páginas generadas dinámicamente -->
+    <!-- Contenedor principal del libro -->
+    <div id="bookContainer">
+      <!-- Las páginas se generarán dinámicamente -->
     </div>
   </div>
 
-  <!-- Botones de navegación (fijos en la parte inferior) -->
+  <!-- Botones de navegación -->
   <div id="navButtons">
     <button id="prevBtn" class="nav-btn">Anterior</button>
     <button id="nextBtn" class="nav-btn">Siguiente</button>
@@ -67,9 +122,14 @@
 
   <script>
     const pages = [
-      { title: "1. Presentación de Alba y Olivia", text: "Alba y Olivia son...", img: "./1.jpg" },
-      { title: "2. Misterio en el jardín", text: "Un día, descubrieron...", img: "./2.jpg" },
-      // Más páginas aquí...
+      { title: "1. Presentación de Alba y Olivia", text: "Alba, con sus 6 años, es una experta patinadora...", img: "./1.jpg" },
+      { title: "2. Misterio en el jardín", text: "Un día, Alba y Olivia encontraron unas huellas azules...", img: "./2.jpg" },
+      { title: "3. El portal a la Aldea Pitufa", text: "Al tocar el círculo de luz, se abrió un portal brillante...", img: "./3.jpg" },
+      { title: "4. El primer desafío: el Bosque Musical", text: "En el bosque, los árboles tocaban melodías mágicas...", img: "./4.jpg" },
+      { title: "5. Los Pitufos quieren ser personas", text: "Los Pitufos pidieron ayuda para transformarse en humanos...", img: "./5.jpg" },
+      { title: "6. Problema en la Aldea Pitufa", text: "Un fuerte viento amenazaba la Aldea Pitufa...", img: "./6.jpg" },
+      { title: "7. El baile del diamante y la solución", text: "Alba bailó y el poder del diamante calmó el viento...", img: "./7.jpg" },
+      { title: "8. Regreso a Casa y Conclusión", text: "Las hermanas regresaron a casa soñando con su aventura...", img: "./8.jpg" },
     ];
 
     let currentPageIndex = 0;
@@ -84,10 +144,10 @@
         if (index === 0) pageDiv.classList.remove("hidden");
 
         pageDiv.innerHTML = `
-          <div class="bg-white shadow-md rounded-lg p-6">
-            <h2 class="text-2xl sm:text-3xl font-bold mb-4">${page.title}</h2>
-            <img src="${page.img}" alt="Imagen de la página ${index + 1}" class="page-image w-full rounded max-h-[50vh] sm:max-h-[70vh]"/>
-            <p class="text-lg sm:text-xl mt-4">${page.text}</p>
+          <div class="page-content">
+            <h2 class="page-title">${page.title}</h2>
+            <img src="${page.img}" alt="Imagen de la página ${index + 1}" class="page-image" />
+            <p class="page-text">${page.text}</p>
           </div>
         `;
         bookContainer.appendChild(pageDiv);
